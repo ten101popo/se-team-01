@@ -1,0 +1,44 @@
+Read the intent.md below and draft a product backlog for it.
+
+1. Write 8 to 12 user stories in the Connextra form (As a ..., So that ..., I want ...).
+2. Give each story acceptance criteria: one happy path and at least one sad path.
+3. Mark every story or criterion that the intent does not ask for.
+4. List every assumption you made that is not in the intent, and every area of concern.
+
+Do not write code. Keep to what the intent asks for.
+
+--- intent.md ---
+
+# Intent: borrow and track lab equipment without paper logbooks
+Author: ten101popo and bankjunjan (Team 01), for the customer proxy (a university lab technician and project students). Status: draft.
+
+## Customer proxy interview
+
+| คำถามของทีม | คำตอบของ customer proxy |
+|---|---|
+| ปัญหาที่เจอบ่อยที่สุดในห้องแล็บตอนนี้คืออะไร | นักศึกษามายืมบอร์ดและเครื่องมือวัดแล้วจดใส่สมุดกระดาษ ทำให้เช็กไม่ได้ว่าของว่างไหมและใครยังไม่คืน |
+| ผู้ใช้หลักมีใครบ้าง | มี 2 บทบาท คือ นักศึกษาที่ขอยืมอุปกรณ์ และเจ้าหน้าที่ห้องแล็บที่อนุมัติจ่ายของและรับคืน |
+| ข้อมูลหลักที่ต้องเก็บมีอะไรบ้าง | รายการอุปกรณ์พร้อมจำนวนคงเหลือ (Equipment), ข้อมูลผู้ยืม (Borrower), และใบคำขอยืม-คืน (LoanRequest) |
+| ถ้านักศึกษากดขอยืมของที่หมดสต็อกจะให้เกิดอะไรขึ้น | ระบบต้องไม่อนุมัติและแสดงข้อความแจ้งชัดเจนว่าอุปกรณ์ไม่ว่าง พร้อมวันคาดว่าจะว่าง |
+| ต้องเชื่อมต่อระบบภายนอกอะไรไหม | อยากให้ส่งอีเมลแจ้งเตือนผ่านระบบอีเมลสถาบัน (SMTP) ล่วงหน้าก่อนถึงวันครบกำหนดคืน |
+| ต้องล็อกอินซับซ้อนหรือเก็บข้อมูลบัตรประชาชนไหม | ใช้แค่อีเมลสถาบันและรหัสนักศึกษา/รหัสเจ้าหน้าที่ ห้ามเก็บเลขบัตรประชาชนหรือข้อมูลส่วนบุคคลที่ไม่จำเป็น |
+
+## Problem
+Students borrowing microcontroller boards and test instruments have to visit the lab room in person and write in a paper logbook.
+Neither students nor lab technicians can quickly check available stock or overdue items, causing project delays and lost equipment.
+
+## Proposed outcome
+Students browse available lab equipment by category, submit a loan request with a return date, and receive email reminders before the deadline.
+Lab technicians review pending loan requests, approve or reject them, and record returns so stock counts stay accurate.
+
+## Affected users and systems
+Undergraduate engineering students (borrowers) and lab technicians (approvers/inventory managers).
+Entities: Equipment, Borrower, and LoanRequest, plus external integration with the university SMTP email notification service.
+
+## Constraints
+Only institutional email addresses are accepted; no national ID numbers or sensitive personal data are stored.
+Loan duration cannot exceed 14 days per request, and unavailable or broken items cannot be borrowed.
+
+## Open questions
+How many days before the due date should the reminder email be sent?
+Can a student renew an active loan online if nobody else is waiting for that equipment?
